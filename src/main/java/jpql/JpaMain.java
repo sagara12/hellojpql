@@ -30,9 +30,20 @@ public class JpaMain {
             em.flush();
             em.clear();
 
+            String query =
+                          "select " +
+                                   "case when m.age <= 10 then '학생요금' "+
+                                   "     when m.age >= 60 then '경로요금' "+
+                                   "     else '일반요금' " +
+                                   "end "+
+                                   "from Member m";
 
-            String query = "select m from Member m inner join m.team t";
-            List<Member> result = em.createQuery(query, Member.class).getResultList();
+            List<String> result = em.createQuery(query, String.class).getResultList();
+            for (String s : result) {
+                System.out.println("s = " + s);
+            }
+           /* String query = "select m from Member m inner join m.team t";
+            List<Member> result = em.createQuery(query, Member.class).getResultList();*/
             /*em.createQuery("select m from Member m order by m.age desc", Member.class)
                     .setFirstResult(1)
                     .setMaxResults(10)
